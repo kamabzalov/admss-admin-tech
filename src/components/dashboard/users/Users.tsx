@@ -11,7 +11,7 @@ import { UsersTable } from './table/UsersTable';
 
 const usersTabsArray: string[] = Object.values(UsersType) as string[];
 
-export const Users = () => {
+export const Dealers = () => {
     const [activeTab, setActiveTab] = useState<UsersListType>(UsersType.ACTIVE);
     const [addUserModalEnabled, setAddUserModalEnabled] = useState<boolean>(false);
 
@@ -33,7 +33,7 @@ export const Users = () => {
         <QueryRequestProvider>
             <QueryResponseProvider listType={activeTab}>
                 {addUserModalEnabled && (
-                    <CustomModal onClose={handleAddUserModalOpen} title={'Add user'}>
+                    <CustomModal onClose={handleAddUserModalOpen} title={'Add dealer'}>
                         <UserModal onClose={handleAddUserModalOpen} />
                     </CustomModal>
                 )}
@@ -59,7 +59,7 @@ export const Users = () => {
                                     icon='plus'
                                     buttonClickAction={handleAddUserModalOpen}
                                 >
-                                    Add user
+                                    Add dealer
                                 </PrimaryButton>
                             </div>
                             {activeTabLoaded[UsersType.ACTIVE] && activeTab === UsersType.ACTIVE && (

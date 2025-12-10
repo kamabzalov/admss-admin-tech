@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { MicroserviceCard } from 'components/dashboard/microservices/MicroserviceCard';
 import { Microservices } from 'components/dashboard/microservices/Microservices';
 import { UserCard } from 'components/dashboard/users/UserCard/UserCard';
 import { Login } from 'components/Login';
 import { MenuComponent } from '_metronic/assets/ts/components';
-import { Users } from 'components/dashboard/users/Users';
+import { Dealers } from 'components/dashboard/users/Users';
 import { PrivateRouter } from 'router/privateRouter';
 import { useAuthInterceptor } from 'common/auth.interceptor';
 import { DataImport } from 'components/dashboard/common/DataImport/DataImport';
@@ -34,9 +34,9 @@ const Content = () => {
             <Routes>
                 <Route path='/' element={<Login />} />
                 <Route path='/dashboard' element={<PrivateRouter />}>
-                    <Route path='' element={<Microservices />} />
+                    <Route path='' element={<Dealers />} />
+                    <Route path='microservices' element={<Microservices />} />
                     <Route path='microservices/:uid' element={<MicroserviceCard />} />
-                    <Route path='users' element={<Users />} />
                     <Route path='data-import' element={<DataImport />} />
                     <Route path='template-reports' element={<TemplatesReports />} />
                     <Route path='template-printed' element={<TemplatesPrinted />} />

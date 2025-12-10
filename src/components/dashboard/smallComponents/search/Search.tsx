@@ -39,7 +39,7 @@ export const UsersListSearchComponent = () => {
                 type='text'
                 data-kt-user-table-filter='search'
                 className='form-control rounded-0 rounded-start-2 form-control-solid pe-4'
-                placeholder='Search user'
+                placeholder='Search dealer'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyUp={handleKeyPress}

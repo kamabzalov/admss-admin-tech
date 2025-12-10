@@ -10,12 +10,8 @@ export const usersColumns = (list: UsersListType): ReadonlyArray<Column<User>> =
     const { ACTIVE, DELETED } = UsersType;
     const generalColumns = [
         {
-            Header: 'Index',
-            accessor: 'index',
-        },
-        {
             Header: (props) => (
-                <UserCustomHeader tableProps={props} title='User name' className='w-300px' />
+                <UserCustomHeader tableProps={props} title='Dealer name' className='w-300px' />
             ),
             id: 'username',
             Cell: ({ ...props }) => {
@@ -42,7 +38,7 @@ export const usersColumns = (list: UsersListType): ReadonlyArray<Column<User>> =
 
     const userColumns = [
         {
-            Header: 'Created by user',
+            Header: 'Created by',
             accessor: 'creatorusername',
         },
         {

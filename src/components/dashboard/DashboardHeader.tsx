@@ -51,18 +51,18 @@ export function DashboardHeader() {
                     <div className='app-header-menu d-flex align-items-stretch w-100'>
                         <div className='menu menu-rounded menu-column menu-row my-5 my-lg-0 align-items-stretch fw-semibold  px-lg-0 w-100'>
                             <div className='menu-item me-lg-1'>
-                                <Link
-                                    className='menu-link py-3 text-hover-primary'
-                                    to={'/dashboard'}
-                                >
-                                    <i className='ki-outline ki-wrench fs-2 m-2'></i>
-                                    <span className='menu-title'>Microservices</span>
+                                <Link className='menu-link py-3 text-hover-primary' to={''}>
+                                    <i className='ki-outline ki-user-tick fs-2 m-2'></i>
+                                    <span className='menu-title w-0'>Dealers</span>
                                 </Link>
                             </div>
                             <div className='menu-item me-lg-1'>
-                                <Link className='menu-link py-3 text-hover-primary' to={'users'}>
-                                    <i className='ki-outline ki-user-tick fs-2 m-2'></i>
-                                    <span className='menu-title w-0'>Users</span>
+                                <Link
+                                    className='menu-link py-3 text-hover-primary'
+                                    to={'microservices'}
+                                >
+                                    <i className='ki-outline ki-wrench fs-2 m-2'></i>
+                                    <span className='menu-title'>Microservices</span>
                                 </Link>
                             </div>
                             <div className='menu-item me-lg-1'>
