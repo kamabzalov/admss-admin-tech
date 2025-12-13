@@ -25,3 +25,7 @@
 .menu-item .menu-title {
     font-size: 1.1rem;
 }
+
+.sign-in-bg {
+    background-image: url('_metronic/assets/images/sign-in-bg.png');
+}

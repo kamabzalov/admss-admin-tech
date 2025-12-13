@@ -86,9 +86,10 @@ export function Login() {
         },
     });
     return (
-        <div className='d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1'>
+        <div className='d-flex flex-lg-row-fluid p-10 sign-in-bg h-100'>
             <div className='d-flex flex-center flex-column flex-lg-row-fluid'>
-                <div className='w-lg-500px p-10'>
+                <img src='/logo/admss_logo.png' className='logo w-50 w-sm-25' alt='ADMS' />
+                <div className='w-sm-500px w-100 p-10 bg-white border'>
                     <form className='form w-100' onSubmit={formik.handleSubmit} noValidate>
                         <div className='text-center mb-11'>
                             <h1 className='text-dark fw-bolder mb-3'>Sign In</h1>
