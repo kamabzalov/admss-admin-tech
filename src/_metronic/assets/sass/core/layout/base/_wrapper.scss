@@ -18,7 +18,7 @@
             margin-top: var(--#{$prefix}app-header-height-actual);
         }
 
-        [data-kt-app-header-fixed='true'] & {
+         & {
             margin-top: var(--#{$prefix}app-header-height);
         }
 
@@ -41,7 +41,7 @@
         }
 
         // Sidebar
-        [data-kt-app-sidebar-fixed='true'] & {
+         & {
             margin-left: calc(
                 var(--#{$prefix}app-sidebar-width) + var(--#{$prefix}app-sidebar-gap-start, 0px) +
                     var(--#{$prefix}app-sidebar-gap-end, 0px)

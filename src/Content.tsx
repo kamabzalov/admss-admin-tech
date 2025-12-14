@@ -11,6 +11,7 @@ import { useAuthInterceptor } from 'common/auth.interceptor';
 import { DataImport } from 'components/dashboard/common/DataImport/DataImport';
 import { TemplatesPrinted } from 'components/dashboard/common/TemplatesPrinted/TemplatesPrinted';
 import { TemplatesReports } from 'components/dashboard/common/TemplatesReports/TemplatesReports';
+import { DeletedDealers } from './components/dashboard/users/DeletedDealers';
 
 export function MasterInit() {
     const pluginsInitialization = () => {
@@ -29,12 +30,13 @@ export function MasterInit() {
 const Content = () => {
     useAuthInterceptor();
     return (
-        <div className='d-flex flex-column flex-lg-row flex-column-fluid h-100'>
+        <div className='d-flex flex-column h-100'>
             <MasterInit />
             <Routes>
                 <Route path='/' element={<Login />} />
                 <Route path='/dashboard' element={<PrivateRouter />}>
                     <Route path='' element={<Dealers />} />
+                    <Route path='deleted-dealers' element={<DeletedDealers />} />
                     <Route path='microservices' element={<Microservices />} />
                     <Route path='microservices/:uid' element={<MicroserviceCard />} />
                     <Route path='data-import' element={<DataImport />} />

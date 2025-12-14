@@ -85,7 +85,7 @@
             display: none;
         }
 
-        [data-kt-app-sidebar-fixed='true'] & {
+         & {
             position: fixed;
             @include property(z-index, $app-sidebar-fixed-z-index);
             @include property(top, $app-sidebar-fixed-top);

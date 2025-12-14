@@ -49,7 +49,7 @@
     .app-header {
         height: var(--#{$prefix}app-header-height);
 
-        [data-kt-app-header-fixed='true'] & {
+         & {
             @include property(z-index, $app-header-fixed-z-index);
             position: fixed;
             left: 0;
@@ -83,7 +83,7 @@
             border-bottom: var(--#{$prefix}app-header-sticky-border-bottom);
         }
 
-        [data-kt-app-header-minimize='on'] & {
+         & {
             transition: $app-header-base-transition;
             @include property(z-index, $app-header-minimize-z-index);
             @include property(backdrop-filter, $app-header-minimize-backdrop-filter);
@@ -101,9 +101,6 @@
     // Integration
     .app-header {
         // Sidebar
-        [data-kt-app-header-fixed='true'][data-kt-app-sidebar-fixed='true'][data-kt-app-sidebar-push-header='true']
-            &,
-        [data-kt-app-header-fixed='true'][data-kt-app-sidebar-sticky='on'][data-kt-app-sidebar-push-header='true']
             & {
             left: calc(
                 var(--#{$prefix}app-sidebar-width) + var(--#{$prefix}app-sidebar-gap-start, 0px) +

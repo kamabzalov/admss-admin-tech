@@ -3,13 +3,11 @@ import { QueryResponseProvider } from 'common/core/QueryResponseProvider';
 import { UsersListType, UsersType } from 'common/interfaces/UserData';
 import { useState } from 'react';
 import { CustomModal } from '../helpers/modal/renderModalHelper';
-import { PrimaryButton } from '../smallComponents/buttons/PrimaryButton';
-import { UsersListSearchComponent } from '../smallComponents/search/Search';
 import { UserModal } from './UserModal/parts/UserModal';
 import { UsersTable } from './table/UsersTable';
 
-export const Dealers = () => {
-    const [activeTab] = useState<UsersListType>(UsersType.ACTIVE);
+export const DeletedDealers = () => {
+    const [activeTab] = useState<UsersListType>(UsersType.DELETED);
     const [addUserModalEnabled, setAddUserModalEnabled] = useState<boolean>(false);
 
     const handleAddUserModalOpen = () => setAddUserModalEnabled(!addUserModalEnabled);
@@ -25,16 +23,7 @@ export const Dealers = () => {
                 <div className='card'>
                     <div className='card-body'>
                         <div className='tab-content' id='myTabContentInner'>
-                            <div className='d-flex w-100 justify-content-between my-4'>
-                                <UsersListSearchComponent />
-                                <PrimaryButton
-                                    icon='plus'
-                                    buttonClickAction={handleAddUserModalOpen}
-                                >
-                                    Add dealer
-                                </PrimaryButton>
-                            </div>
-                            <UsersTable list={UsersType.ACTIVE} />
+                            <UsersTable list={UsersType.DELETED} />
                         </div>
                     </div>
                 </div>
