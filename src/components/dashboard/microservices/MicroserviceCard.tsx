@@ -8,26 +8,51 @@ import {
     getServiceCounters,
     getServiceLogs,
 } from 'components/dashboard/microservices/service';
-import { TabDataWrapper, TabNavigate, TabPanel } from 'components/dashboard/helpers/helpers';
-import { Microservice } from 'common/interfaces/MicroserviceServerData';
+import { Microservice, MicroserviceServerData } from 'common/interfaces/MicroserviceServerData';
+import { TableHead } from '../helpers/renderTableHelper';
 
-enum MicroserviceTabs {
-    State = 'State',
-    Logs = 'Logs',
-    Audit = 'Audit',
-    Alerts = 'Alerts',
-    Counters = 'Counters',
-}
+const getUniqValues = ({ values }: { values: MicroserviceServerData[] }) => {
+    const columns = new Set<string>();
 
-const microserviceTabsArray: string[] = Object.values(MicroserviceTabs) as string[];
+    values.forEach((obj: MicroserviceServerData): void => {
+        Object.keys(obj).forEach((key: string): void => {
+            columns.add(key);
+        });
+    });
+
+    return [...columns];
+};
+
+export const renderTable = (data: MicroserviceServerData[]) => {
+    const columns = getUniqValues({ values: data });
+    return (
+        <div className='w-100 table-responsive table-responsive-horizontal'>
+            <table className='table table-row-dashed table-row-gray-300 gy-7'>
+                <TableHead columns={columns} />
+                <TableBody data={data} />
+            </table>
+        </div>
+    );
+};
+
+const TableBody = ({ data }: { data: MicroserviceServerData[] }) => (
+    <tbody>
+        {data.map((row: MicroserviceServerData, index: number) => (
+            <tr key={index}>
+                {Object.values(row).map((cell: string, cellIndex: number) => (
+                    <td key={`${index}-${cellIndex}`}>{cell}</td>
+                ))}
+            </tr>
+        ))}
+    </tbody>
+);
 
 export function MicroserviceCard() {
     const { uid } = useParams();
-    const [activeTab, setActiveTab] = useState('State');
-    const [logs, setLogs] = useState<string>('');
-    const [audit, setAudit] = useState<string>('');
-    const [alerts, setAlerts] = useState<string>('');
-    const [counters, setCounters] = useState<string>('');
+    const [logs, setLogs] = useState<MicroserviceServerData[]>([]);
+    const [audit, setAudit] = useState<MicroserviceServerData[]>([]);
+    const [alerts, setAlerts] = useState<MicroserviceServerData[]>([]);
+    const [counters, setCounters] = useState<MicroserviceServerData[]>([]);
     const [microserviceData, setMicroservice] = useState<Microservice | null>(null);
 
     useEffect(() => {
@@ -39,70 +64,235 @@ export function MicroserviceCard() {
             });
             getServiceLogs(uid).then((response) => {
                 if (response) {
-                    setLogs(JSON.stringify(response, null, 2));
+                    setLogs(response);
                 }
             });
             getServiceAudit(uid).then((response) => {
                 if (response) {
-                    setAudit(JSON.stringify(response, null, 2));
+                    setAudit(response);
                 }
             });
             getServiceAlerts(uid).then((response) => {
                 if (response) {
-                    setAlerts(JSON.stringify(response, null, 2));
+                    setAlerts(response);
                 }
             });
             getServiceCounters(uid).then((response) => {
                 if (response) {
-                    setCounters(JSON.stringify(response, null, 2));
+                    setCounters(response);
                 }
             });
         }
     }, [uid]);
 
-    const handleTabClick = (tab: string) => {
-        setActiveTab(tab);
-    };
-
     return (
-        <div className='row g-5 g-xl-10 mb-5 mb-xl-10'>
-            <div className='col-12'>
-                <div className='card card-custom mb-5 vw-90 mx-auto'>
-                    <div className='card-header'>
-                        <h3 className='card-title fw-bolder text-dark'>{microserviceData?.name}</h3>
+        <>
+            <div className='card mb-5 mb-xl-10'>
+                <div className='card-header'>
+                    <div className='card-title m-0'>
+                        <h3 className='fw-bolder m-0'>State</h3>
                     </div>
-                    <div className='card-body d-flex flex-column justify-content-end pb-0'>
-                        <ul className='nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap'>
-                            {microserviceTabsArray.map((tab) => (
-                                <TabNavigate
-                                    key={tab}
-                                    activeTab={activeTab}
-                                    tab={tab}
-                                    onTabClick={handleTabClick}
-                                />
-                            ))}
+                    <div className='card-toolbar'>
+                        <ul className='nav'>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#state-general'
+                                >
+                                    General
+                                </a>
+                            </li>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#state-json'
+                                >
+                                    JSON
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
 
-                <div className='tab-content' id='myTabPanel'>
-                    <TabPanel activeTab={activeTab} tabName={MicroserviceTabs.State}>
-                        <TabDataWrapper data={JSON.stringify(microserviceData, null, 2)} />
-                    </TabPanel>
-                    <TabPanel activeTab={activeTab} tabName={MicroserviceTabs.Logs}>
-                        <TabDataWrapper data={logs} />
-                    </TabPanel>
-                    <TabPanel activeTab={activeTab} tabName={MicroserviceTabs.Audit}>
-                        <TabDataWrapper data={audit} />
-                    </TabPanel>
-                    <TabPanel activeTab={activeTab} tabName={MicroserviceTabs.Alerts}>
-                        <TabDataWrapper data={alerts} />
-                    </TabPanel>
-                    <TabPanel activeTab={activeTab} tabName={MicroserviceTabs.Counters}>
-                        <TabDataWrapper data={counters} />
-                    </TabPanel>
+                <div className='card-body py-3'>
+                    <div className='tab-content'>
+                        <div className='tab-pane fade show active' id='state-general'>
+                            {microserviceData ? microserviceData.name : 'No data available'}
+                        </div>
+                        <div className='tab-pane fade' id='state-json'>
+                            {microserviceData ? (
+                                <pre className='fs-md-4 fs-6'>
+                                    JSON.stringify(microserviceData, null, 2)
+                                </pre>
+                            ) : (
+                                'No data available'
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className='card mb-5 mb-xl-10'>
+                <div className='card-header'>
+                    <div className='card-title m-0'>
+                        <h3 className='fw-bolder m-0'>Logs</h3>
+                    </div>
+                    <div className='card-toolbar'>
+                        <ul className='nav'>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#logs-general'
+                                >
+                                    General
+                                </a>
+                            </li>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#logs-json'
+                                >
+                                    JSON
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className='card-body py-3'>
+                    <div className='tab-content'>
+                        <div className='tab-pane fade show active' id='logs-general'>
+                            {logs.length ? renderTable(logs) : 'No data available'}
+                        </div>
+                        <div className='tab-pane fade' id='logs-json'>
+                            <pre className='fs-md-4 fs-6'>{JSON.stringify(logs, null, 2)}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='card mb-5 mb-xl-10'>
+                <div className='card-header'>
+                    <div className='card-title m-0'>
+                        <h3 className='fw-bolder m-0'>Audit</h3>
+                    </div>
+                    <div className='card-toolbar'>
+                        <ul className='nav'>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#audit-general'
+                                >
+                                    General
+                                </a>
+                            </li>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#audit-json'
+                                >
+                                    JSON
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className='card-body py-3'>
+                    <div className='tab-content'>
+                        <div className='tab-pane fade show active' id='audit-general'>
+                            {audit.length ? renderTable(audit) : 'No data available'}
+                        </div>
+                        <div className='tab-pane fade' id='audit-json'>
+                            <pre className='fs-md-4 fs-6'>{JSON.stringify(audit, null, 2)}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='card mb-5 mb-xl-10'>
+                <div className='card-header'>
+                    <div className='card-title m-0'>
+                        <h3 className='fw-bolder m-0'>Alerts</h3>
+                    </div>
+                    <div className='card-toolbar'>
+                        <ul className='nav'>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#alerts-general'
+                                >
+                                    General
+                                </a>
+                            </li>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#alerts-json'
+                                >
+                                    JSON
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className='card-body py-3'>
+                    <div className='tab-content'>
+                        <div className='tab-pane fade show active' id='alerts-general'>
+                            {alerts.length ? renderTable(alerts) : 'No data available'}
+                        </div>
+                        <div className='tab-pane fade' id='alerts-json'>
+                            <pre className='fs-md-4 fs-6'>{JSON.stringify(alerts, null, 2)}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='card mb-5 mb-xl-10'>
+                <div className='card-header'>
+                    <div className='card-title m-0'>
+                        <h3 className='fw-bolder m-0'>Counters</h3>
+                    </div>
+                    <div className='card-toolbar'>
+                        <ul className='nav'>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#counters-general'
+                                >
+                                    General
+                                </a>
+                            </li>
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4 me-1'
+                                    data-bs-toggle='tab'
+                                    href='#counters-json'
+                                >
+                                    JSON
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className='card-body py-3'>
+                    <div className='tab-content'>
+                        <div className='tab-pane fade show active' id='counters-general'>
+                            {counters.length ? renderTable(counters) : 'No data available'}
+                        </div>
+                        <div className='tab-pane fade' id='counters-json'>
+                            <pre className='fs-md-4 fs-6'>{JSON.stringify(counters, null, 2)}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

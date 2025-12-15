@@ -7,6 +7,10 @@
 @import '~animate.css/animate.css';
 @import '~nouislider/dist/nouislider.css';
 
+:root {
+    height: 100%;
+}
+
 #root {
-    display: contents;
+    min-height: 100%;
 }

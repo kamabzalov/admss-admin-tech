@@ -103,7 +103,7 @@ export const Microservices = () => {
                                             <td className='text-gray-800'>{service.index}</td>
                                             <td>
                                                 <Link
-                                                    to={`microservices/${service.uid}`}
+                                                    to={`${service.uid}`}
                                                     className='text-gray-800 text-hover-primary mb-1 text-decoration-underline'
                                                 >
                                                     {service.name}

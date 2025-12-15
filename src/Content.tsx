@@ -12,11 +12,15 @@ import { DataImport } from 'components/dashboard/common/DataImport/DataImport';
 import { TemplatesPrinted } from 'components/dashboard/common/TemplatesPrinted/TemplatesPrinted';
 import { TemplatesReports } from 'components/dashboard/common/TemplatesReports/TemplatesReports';
 import { DeletedDealers } from './components/dashboard/users/DeletedDealers';
+import { Tab } from 'bootstrap';
 
 export function MasterInit() {
     const pluginsInitialization = () => {
         setTimeout(() => {
             MenuComponent.bootstrap();
+            document.querySelectorAll('[data-bs-toggle="tab"]').forEach((tab) => {
+                Tab.getOrCreateInstance(tab);
+            });
         }, 1500);
     };
 
@@ -37,12 +41,12 @@ const Content = () => {
                 <Route path='/dashboard' element={<PrivateRouter />}>
                     <Route path='' element={<Dealers />} />
                     <Route path='deleted-dealers' element={<DeletedDealers />} />
-                    <Route path='microservices' element={<Microservices />} />
-                    <Route path='microservices/:uid' element={<MicroserviceCard />} />
                     <Route path='data-import' element={<DataImport />} />
                     <Route path='template-reports' element={<TemplatesReports />} />
                     <Route path='template-printed' element={<TemplatesPrinted />} />
                     <Route path='user/:id' element={<UserCard />} />
+                    <Route path='microservices' element={<Microservices />} />
+                    <Route path='microservices/:uid' element={<MicroserviceCard />} />
                 </Route>
             </Routes>
         </div>
