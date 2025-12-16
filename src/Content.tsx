@@ -13,6 +13,7 @@ import { TemplatesPrinted } from 'components/dashboard/common/TemplatesPrinted/T
 import { TemplatesReports } from 'components/dashboard/common/TemplatesReports/TemplatesReports';
 import { DeletedDealers } from './components/dashboard/users/DeletedDealers';
 import { Tab } from 'bootstrap';
+import { ErrorPage } from './components/Error';
 
 export function MasterInit() {
     const pluginsInitialization = () => {
@@ -44,6 +45,8 @@ const Content = () => {
                     <Route path='data-import' element={<DataImport />} />
                     <Route path='template-reports' element={<TemplatesReports />} />
                     <Route path='template-printed' element={<TemplatesPrinted />} />
+                    <Route path='billing' element={<ErrorPage />} />
+                    <Route path='reports' element={<ErrorPage />} />
                     <Route path='user/:id' element={<UserCard />} />
                     <Route path='microservices' element={<Microservices />} />
                     <Route path='microservices/:uid' element={<MicroserviceCard />} />

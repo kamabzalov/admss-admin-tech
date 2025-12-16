@@ -67,12 +67,12 @@ export const getUserPermissions = (uid: string): Promise<string> => {
     return fetchApiData<string>('GET', `user/${uid}/permissions`);
 };
 
-export const getUserExtendedInfo = (uid: string): Promise<string> => {
-    return fetchApiData<string>('GET', `user/${uid}/info`);
+export const getUserExtendedInfo = (uid: string): Promise<Record<string, any>> => {
+    return fetchApiData<Record<string, any>>('GET', `user/${uid}/info`);
 };
 
-export const getUserLocations = (uid: string): Promise<string> => {
-    return fetchApiData<string>('GET', `user/${uid}/locations`);
+export const getUserLocations = (uid: string): Promise<any> => {
+    return fetchApiData<any>('GET', `user/${uid}/locations`);
 };
 
 export const getUserProfile = (uid: string): Promise<string> => {
@@ -87,24 +87,24 @@ export const getUserSettings = (uid: string): Promise<UserSettingsResponse> => {
     return fetchApiData('GET', `user/${uid}/settings`);
 };
 
-export const listUserSessions = (uid: string): Promise<string> => {
-    return fetchApiData<string>('GET', `user/${uid}/sessions`);
+export const listUserSessions = (uid: string): Promise<any[]> => {
+    return fetchApiData<any[]>('GET', `user/${uid}/sessions`);
 };
 
 export const killSession = (uid: string): Promise<ActionStatus> => {
     return fetchApiData('POST', `user/${uid}/session`);
 };
 
-export const listUserLogins = (uid: string): Promise<string> => {
-    return fetchApiData<string>('GET', `user/${uid}/logins`);
+export const listUserLogins = (uid: string): Promise<any[]> => {
+    return fetchApiData<any[]>('GET', `user/${uid}/logins`);
 };
 
-export const listSubusers = (uid: string): Promise<string> => {
-    return fetchApiData<string>('GET', `user/${uid}/subusers`);
+export const listSubusers = (uid: string): Promise<any[]> => {
+    return fetchApiData<any[]>('GET', `user/${uid}/subusers`);
 };
 
-export const listSalesPersons = (uid: string): Promise<string> => {
-    return fetchApiData<string>('GET', `user/${uid}/salespersons`);
+export const listSalesPersons = (uid: string): Promise<any[]> => {
+    return fetchApiData<any[]>('GET', `user/${uid}/salespersons`);
 };
 
 export const getUserShortInfo = (uid: string): Promise<ShortUserInfo> => {
