@@ -8,7 +8,7 @@ import { UsersListSearchComponent } from '../smallComponents/search/Search';
 import { UserModal } from './UserModal/parts/UserModal';
 import { UsersTable } from './table/UsersTable';
 
-export const Dealers = () => {
+export const Users = () => {
     const [activeTab] = useState<UsersListType>(UsersType.ACTIVE);
     const [addUserModalEnabled, setAddUserModalEnabled] = useState<boolean>(false);
 

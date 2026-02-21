@@ -17,10 +17,34 @@ const Sidebar = () => {
                             </span>
                         </div>
                     </div>
-
                     <div className='menu menu-column menu-rounded menu-sub-indention px-3'>
                         <div className='menu-item'>
                             <Link to='/dashboard' className='menu-link without-sub'>
+                                <span className='menu-icon'>
+                                    <i className='ki-duotone ki-people'>
+                                        <span className='path1'></span>
+                                        <span className='path2'></span>
+                                        <span className='path3'></span>
+                                        <span className='path4'></span>
+                                        <span className='path5'></span>
+                                    </i>
+                                </span>
+                                <span className='menu-title'>Dealers list</span>
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className='menu-item'>
+                        <div className='menu-content pt-8 pb-2'>
+                            <span className='menu-section text-muted text-uppercase fs-8 ls-1'>
+                                Users
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className='menu menu-column menu-rounded menu-sub-indention px-3'>
+                        <div className='menu-item'>
+                            <Link to='users' className='menu-link without-sub'>
                                 <span className='menu-icon'>
                                     <i className='ki-duotone ki-profile-circle fs-2'>
                                         <span className='path1'></span>
@@ -28,13 +52,13 @@ const Sidebar = () => {
                                         <span className='path3'></span>
                                     </i>
                                 </span>
-                                <span className='menu-title'>Active dealers</span>
+                                <span className='menu-title'>Active users</span>
                             </Link>
                         </div>
                     </div>
                     <div className='menu menu-column menu-rounded menu-sub-indention px-3'>
                         <div className='menu-item'>
-                            <Link to='deleted-dealers' className='menu-link without-sub'>
+                            <Link to='deleted-users' className='menu-link without-sub'>
                                 <span className='menu-icon'>
                                     <i className='ki-duotone ki-tablet-delete'>
                                         <span className='path1'></span>
@@ -42,7 +66,7 @@ const Sidebar = () => {
                                         <span className='path3'></span>
                                     </i>
                                 </span>
-                                <span className='menu-title'>Deleted dealers</span>
+                                <span className='menu-title'>Deleted users</span>
                             </Link>
                         </div>
                     </div>
