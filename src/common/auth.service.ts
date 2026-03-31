@@ -1,22 +1,7 @@
 import axios from 'axios';
 import { getToken } from './utils';
 import { API_URL, APPLICATION } from './app-consts';
-
-export interface LoginResponse {
-    companyname: string;
-    firstname: string;
-    isadmin: number;
-    islocaladmin: number;
-    ismanager: number;
-    issalesperson: number;
-    lastname: string;
-    loginname: string;
-    sessionuid: string;
-    status: 'OK';
-    token: string;
-    username: string;
-    useruid: string;
-}
+import { LoginResponse } from './interfaces/UserData';
 
 interface LogoutResponse {
     status: 'OK';

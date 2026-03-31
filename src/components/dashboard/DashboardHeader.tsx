@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { LoginResponse, logout } from 'common/auth.service';
+import { logout } from 'common/auth.service';
+import { LoginResponse } from 'common/interfaces/UserData';
 import { CustomDropdown } from './helpers/renderDropdownHelper';
 import { LOC_STORAGE_USER } from 'common/app-consts';
 import { useState } from 'react';

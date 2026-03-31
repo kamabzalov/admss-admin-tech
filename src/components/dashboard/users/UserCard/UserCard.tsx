@@ -18,7 +18,7 @@ import { AxiosError } from 'axios';
 import { useToast } from '../../helpers/renderToastHelper';
 import { Status } from 'common/interfaces/ActionStatus';
 import { LOC_STORAGE_USER } from 'common/app-consts';
-import { LoginResponse } from 'common/auth.service';
+import { LoginResponse } from 'common/interfaces/UserData';
 import { ShortUserInfo } from '../../../../common/interfaces/UserData';
 import { renderTable } from '../../microservices/MicroserviceCard';
 

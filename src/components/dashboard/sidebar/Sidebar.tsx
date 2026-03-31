@@ -33,6 +33,21 @@ const Sidebar = () => {
                             </Link>
                         </div>
                     </div>
+                    <div className='menu menu-column menu-rounded menu-sub-indention px-3'>
+                        <div className='menu-item'>
+                            <Link to='/dashboard/leads' className='menu-link without-sub'>
+                                <span className='menu-icon'>
+                                    <i className='ki-duotone ki-note'>
+                                        <span className='path1'></span>
+                                        <span className='path2'></span>
+                                        <span className='path3'></span>
+                                        <span className='path4'></span>
+                                    </i>
+                                </span>
+                                <span className='menu-title'>Leads</span>
+                            </Link>
+                        </div>
+                    </div>
 
                     <div className='menu-item'>
                         <div className='menu-content pt-8 pb-2'>

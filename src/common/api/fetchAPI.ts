@@ -3,7 +3,7 @@ import { API_URL } from 'common/app-consts';
 import { UserQuery } from 'common/interfaces/QueriesParams';
 import { getToken } from 'common/utils';
 
-type Method = 'GET' | 'POST';
+type Method = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 interface FetchHeaders {
     Authorization?: string;
