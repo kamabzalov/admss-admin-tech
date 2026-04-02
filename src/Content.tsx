@@ -15,6 +15,8 @@ import { DeletedDealers } from './components/dashboard/users/DeletedDealers';
 import { Tab } from 'bootstrap';
 import { ErrorPage } from './components/Error';
 import { Dealers } from './components/dashboard/dealers';
+import { Leads } from './components/dashboard/leads/Leads';
+import { LeadCard } from './components/dashboard/leads/LeadCard';
 
 export function MasterInit() {
     const pluginsInitialization = () => {
@@ -42,6 +44,7 @@ const Content = () => {
                 <Route path='/' element={<Login />} />
                 <Route path='/dashboard' element={<PrivateRouter />}>
                     <Route path='' element={<Dealers />} />
+                    <Route path='leads' element={<Leads />} />
                     <Route path='users' element={<Users />} />
                     <Route path='deleted-users' element={<DeletedDealers />} />
                     <Route path='data-import' element={<DataImport />} />
@@ -50,6 +53,7 @@ const Content = () => {
                     <Route path='billing' element={<ErrorPage />} />
                     <Route path='reports' element={<ErrorPage />} />
                     <Route path='user/:id' element={<UserCard />} />
+                    <Route path='lead/:id' element={<LeadCard />} />
                     <Route path='microservices' element={<Microservices />} />
                     <Route path='microservices/:uid' element={<MicroserviceCard />} />
                 </Route>
