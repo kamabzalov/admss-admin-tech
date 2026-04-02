@@ -1,6 +1,20 @@
-/* eslint-disable no-unused-vars */
-
 import { Status } from './ActionStatus';
+
+export interface LoginResponse {
+    companyname: string;
+    firstname: string;
+    isadmin: number;
+    islocaladmin: number;
+    ismanager: number;
+    issalesperson: number;
+    lastname: string;
+    loginname: string;
+    sessionuid: string;
+    status: 'OK';
+    token: string;
+    username: string;
+    useruid: string;
+}
 
 export interface UserInputData {
     username: string;

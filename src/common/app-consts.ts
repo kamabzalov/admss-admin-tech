@@ -45,6 +45,7 @@ export const renamedKeys: Record<string, string> = {
     created: 'Created Date',
     index: 'Index',
     itemuid: 'Item UID',
+    isdefault: 'Is Default',
     updated: 'Updated Date',
     useruid: 'User UID',
     locEmail1: 'Location Email 1',
