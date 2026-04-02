@@ -1,26 +1,18 @@
-/* eslint-disable no-unused-vars */
 import { Link, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
     getUserExtendedInfo,
     getUserLocations,
-    getUserPermissions,
-    getUserSettings,
     getUserShortInfo,
-    getUserStatistics,
     listSalesPersons,
     listSubusers,
     listUserLogins,
     listUserSessions,
-    setUserPermissions,
 } from 'components/dashboard/users/user.service';
-import { AxiosError } from 'axios';
-import { useToast } from '../../helpers/renderToastHelper';
-import { Status } from 'common/interfaces/ActionStatus';
 import { LOC_STORAGE_USER } from 'common/app-consts';
 import { LoginResponse } from 'common/interfaces/UserData';
-import { ShortUserInfo } from '../../../../common/interfaces/UserData';
-import { renderTable } from '../../microservices/MicroserviceCard';
+import { ShortUserInfo } from 'common/interfaces/UserData';
+import { renderTable } from 'components/dashboard/microservices/MicroserviceCard';
 
 export function UserCard() {
     const { id } = useParams();
@@ -28,98 +20,26 @@ export function UserCard() {
     const [extendedInfo, setExtendedInfo] = useState<Record<string, any> | null>(null);
     const [shortInfo, setShortInfo] = useState<ShortUserInfo | null>(null);
     const [locations, setLocations] = useState<any[]>([]);
-    const [userPermissionsJSON, setUserPermissionsJSON] = useState<string>('');
-    const [userSettingsJSON, setUserSettingsJSON] = useState<string>('');
     const [userSessions, setUserSessions] = useState<any[]>([]);
     const [userLogins, setUserLogins] = useState<any[]>([]);
     const [userSubusers, setUserSubusers] = useState<any[]>([]);
     const [userSalesPersons, setSalesPersons] = useState<any[]>([]);
-    const [userStatisticsJSON, setUserStatisticsJSON] = useState<string>('');
 
-    const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-    const [initialUserPermissions, setInitialUserPermissions] = useState<string>('');
+    const fetchUserData = useCallback(async (): Promise<void> => {
+        if (!id) return;
 
-    useEffect(() => {
-        if (id) {
-            getUserExtendedInfo(id).then((response) => {
-                setExtendedInfo(response);
-            });
-            getUserShortInfo(id).then((response) => {
-                setShortInfo(response);
-            });
-            getUserLocations(id).then((response) => {
-                setLocations(response.locations);
-            });
-            getUserPermissions(id).then((response) => {
-                // eslint-disable-next-line no-console
-                console.log('permissions', response);
-                const stringifiedResponse = JSON.stringify(response, null, 2);
-                setUserPermissionsJSON(stringifiedResponse);
-                setInitialUserPermissions(stringifiedResponse);
-            });
-            getUserSettings(id).then((response) => {
-                setUserSettingsJSON(JSON.stringify(response, null, 2));
-            });
-            listUserSessions(id).then((response) => {
-                setUserSessions(response);
-            });
-            listUserLogins(id).then((response) => {
-                setUserLogins(response);
-            });
-            listSubusers(id).then((response) => {
-                setUserSubusers(response);
-            });
-            listSalesPersons(id).then((response) => {
-                setSalesPersons(response);
-            });
-            getUserStatistics(id).then((response) => {
-                // eslint-disable-next-line no-console
-                // console.log(response);
-                setUserStatisticsJSON(JSON.stringify(response, null, 2));
-            });
-        }
+        setExtendedInfo(await getUserExtendedInfo(id));
+        setShortInfo(await getUserShortInfo(id));
+        setLocations((await getUserLocations(id)).locations);
+        setUserSessions(await listUserSessions(id));
+        setUserLogins(await listUserLogins(id));
+        setUserSubusers(await listSubusers(id));
+        setSalesPersons(await listSalesPersons(id));
     }, [id]);
 
-    const { handleShowToast } = useToast();
-
     useEffect(() => {
-        if (initialUserPermissions !== userPermissionsJSON) {
-            setIsButtonDisabled(false);
-        } else {
-            setIsButtonDisabled(true);
-        }
-    }, [userPermissionsJSON, initialUserPermissions]);
-
-    const handleChangeUserPermissions = ([fieldName, fieldValue]: [string, number]): void => {
-        const parsedUserPermission = JSON.parse(userPermissionsJSON);
-        parsedUserPermission[fieldName] = fieldValue;
-        setUserPermissionsJSON(JSON.stringify(parsedUserPermission, null, 2));
-    };
-
-    const handleSetUserPermissions = (): void => {
-        if (id) {
-            setUserPermissions(id, JSON.parse(userPermissionsJSON)).then((response) => {
-                try {
-                    if (response.status === Status.OK) {
-                        handleShowToast({
-                            message: 'Permissions successfully saved',
-                            type: 'success',
-                        });
-                    }
-                } catch (err) {
-                    const { message } = err as Error | AxiosError;
-                    handleShowToast({ message, type: 'danger' });
-                }
-
-                try {
-                    setIsButtonDisabled(true);
-                    setInitialUserPermissions(userPermissionsJSON);
-                } catch (error) {
-                    setIsButtonDisabled(true);
-                }
-            });
-        }
-    };
+        void fetchUserData();
+    }, [fetchUserData]);
 
     return (
         <>

@@ -10,7 +10,13 @@ import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
 
-type Optional = Record<string, string | number>[];
+interface Optional {
+    [key: string]: string | number;
+}
+
+interface UserLocationsResponse {
+    locations: Optional[];
+}
 
 interface UserOptionalModalProps {
     onClose: () => void;
@@ -27,10 +33,8 @@ export const UserOptionalModal = ({
     useruid,
     username,
 }: UserOptionalModalProps): JSX.Element => {
-    const [optional, setOptional] = useState<Optional>([]);
-    const [initialUserOptional, setInitialUserOptional] = useState<
-        Record<string, string | number>[]
-    >([]);
+    const [optional, setOptional] = useState<Optional[]>([]);
+    const [initialUserOptional, setInitialUserOptional] = useState<Optional[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
     const [locationKeys, setLocationKeys] = useState<string[]>([]);
@@ -53,35 +57,40 @@ export const UserOptionalModal = ({
 
     const userOptionalValidateFields = Object.keys(UserOptionalSchema.fields);
 
-    useEffect(() => {
-        setIsLoading(true);
-        if (useruid) {
-            getUserLocations(useruid).then(async (response: any) => {
-                const responseOptional: any[] = response.locations;
-
-                const filteredOptional = responseOptional.map((option) => {
-                    const filteredOption = Object.keys(option).reduce(
-                        (acc: Record<string, string>, key) => {
-                            if (key === locationuid) {
-                                setLocationKeys((keys) => [...keys, option[key]]);
-                            }
-                            if (!hiddenKeys.includes(key)) {
-                                acc[key] = option[key];
-                            }
-                            return acc;
-                        },
-                        {}
-                    );
-
-                    return filteredOption;
-                });
-                setOptional(filteredOptional);
-                const deepClone = JSON.parse(JSON.stringify(filteredOptional));
-                setInitialUserOptional(deepClone);
-                setIsLoading(false);
-            });
+    const fetchUserOptional = useCallback(async (): Promise<void> => {
+        if (!useruid) {
+            return;
         }
+
+        setIsLoading(true);
+        const response: UserLocationsResponse = await getUserLocations(useruid);
+        const nextLocationKeys: string[] = [];
+        const filteredOptional = response.locations.map((option) => {
+            const filteredOption = Object.keys(option).reduce(
+                (acc: Record<string, string>, key) => {
+                    if (key === locationuid) {
+                        nextLocationKeys.push(String(option[key]));
+                    }
+                    if (!hiddenKeys.includes(key)) {
+                        acc[key] = String(option[key]);
+                    }
+                    return acc;
+                },
+                {}
+            );
+
+            return filteredOption;
+        });
+        setLocationKeys(nextLocationKeys);
+        setOptional(filteredOptional);
+        const deepClone = JSON.parse(JSON.stringify(filteredOptional)) as Optional[];
+        setInitialUserOptional(deepClone);
+        setIsLoading(false);
     }, [useruid]);
+
+    useEffect(() => {
+        void fetchUserOptional();
+    }, [fetchUserOptional]);
 
     useEffect(() => {
         const isEqual = deepEqual(initialUserOptional, optional);
@@ -144,7 +153,7 @@ export const UserOptionalModal = ({
 
     return (
         <>
-            {optional.map((option: any, index: number) => (
+            {optional.map((option: Optional, index: number) => (
                 <Formik
                     initialValues={option}
                     onSubmit={handleSetUserOptional}
@@ -153,62 +162,60 @@ export const UserOptionalModal = ({
                 >
                     {({ errors, touched }) => (
                         <Form>
-                            {(Object.entries(option) as [string, string | number][]).map(
-                                ([setting]) => {
-                                    const settingName = renamedKeys[setting] || setting;
-                                    return (
-                                        <div className='fv-row mb-4' key={setting}>
-                                            <div className='row'>
-                                                <div className='col-4 d-flex pt-4'>
-                                                    <label
-                                                        htmlFor={setting}
-                                                        className='fs-6 fw-bolder text-dark'
-                                                    >
-                                                        {settingName}
-                                                    </label>
-                                                </div>
-                                                <div className='col-8 d-flex flex-column'>
-                                                    <Field
-                                                        key={setting}
-                                                        autoComplete='off'
-                                                        disabled={disabledKeys.includes(setting)}
-                                                        className={clsx(
-                                                            'form-control bg-transparent',
-                                                            userOptionalValidateFields.includes(
-                                                                setting
-                                                            ) && {
-                                                                ...{
-                                                                    'border-danger':
-                                                                        touched[setting] &&
-                                                                        errors[setting],
-                                                                },
-                                                                ...{
-                                                                    'border-secondary':
-                                                                        touched[setting] &&
-                                                                        !errors[setting],
-                                                                },
-                                                            }
-                                                        )}
-                                                        name={setting}
-                                                        onChange={(
-                                                            event: ChangeEvent<HTMLInputElement>
-                                                        ) => handleChangeUserOptional(event, index)}
-                                                    />
-                                                    {touched[setting] && errors[setting] && (
-                                                        <div className='fv-plugins-message-container'>
-                                                            <div className='fv-help-block'>
-                                                                <span role='alert'>
-                                                                    {String(errors[setting])}
-                                                                </span>
-                                                            </div>
-                                                        </div>
+                            {Object.entries(option).map(([setting]) => {
+                                const settingName = renamedKeys[setting] || setting;
+                                return (
+                                    <div className='fv-row mb-4' key={setting}>
+                                        <div className='row'>
+                                            <div className='col-4 d-flex pt-4'>
+                                                <label
+                                                    htmlFor={setting}
+                                                    className='fs-6 fw-bolder text-dark'
+                                                >
+                                                    {settingName}
+                                                </label>
+                                            </div>
+                                            <div className='col-8 d-flex flex-column'>
+                                                <Field
+                                                    key={setting}
+                                                    autoComplete='off'
+                                                    disabled={disabledKeys.includes(setting)}
+                                                    className={clsx(
+                                                        'form-control bg-transparent',
+                                                        userOptionalValidateFields.includes(
+                                                            setting
+                                                        ) && {
+                                                            ...{
+                                                                'border-danger':
+                                                                    touched[setting] &&
+                                                                    errors[setting],
+                                                            },
+                                                            ...{
+                                                                'border-secondary':
+                                                                    touched[setting] &&
+                                                                    !errors[setting],
+                                                            },
+                                                        }
                                                     )}
-                                                </div>
+                                                    name={setting}
+                                                    onChange={(
+                                                        event: ChangeEvent<HTMLInputElement>
+                                                    ) => handleChangeUserOptional(event, index)}
+                                                />
+                                                {touched[setting] && errors[setting] && (
+                                                    <div className='fv-plugins-message-container'>
+                                                        <div className='fv-help-block'>
+                                                            <span role='alert'>
+                                                                {String(errors[setting])}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
-                                    );
-                                }
-                            )}
+                                    </div>
+                                );
+                            })}
                             <div className='text-center mt-8'>
                                 <PrimaryButton
                                     icon='check'
