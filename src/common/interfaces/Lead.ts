@@ -13,13 +13,22 @@ export interface Lead {
     status?: string;
     lead_status: LeadStatusApi;
     status_code?: number;
-    company_name: string;
-    email: string;
-    phone: string;
-    city: string;
-    state: string;
-    dealer_type: string;
-    source: string;
+    source?: string;
+    source_code?: number;
+    source_details?: string;
+    company_name?: string;
+    company_address?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    phone?: string;
+    dealer_type?: string;
+    referral_code?: string;
+    notes?: string;
+    recaptcha_verified?: boolean;
 }
 
 export interface LeadsListResponse {

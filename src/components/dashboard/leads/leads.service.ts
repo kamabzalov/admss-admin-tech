@@ -1,5 +1,5 @@
 import { fetchApiData } from 'common/api/fetchAPI';
-import { LeadStatusApi, LeadsListResponse } from 'common/interfaces/Lead';
+import { Lead, LeadStatusApi, LeadsListResponse } from 'common/interfaces/Lead';
 
 interface GetLeadsParams {
     top?: number;
@@ -35,6 +35,10 @@ const buildLeadsQuery = ({ top, skip, status }: GetLeadsParams): string => {
 
 export const getLeads = (params: GetLeadsParams): Promise<LeadsListResponse> => {
     return fetchApiData<LeadsListResponse>('GET', `lead${buildLeadsQuery(params)}`);
+};
+
+export const getLead = (id: string): Promise<Lead> => {
+    return fetchApiData<Lead>('GET', `lead/${id}`);
 };
 
 export const updateLeadStatus = (

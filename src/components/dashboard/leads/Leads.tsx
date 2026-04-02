@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { Lead, LeadStatusApi } from 'common/interfaces/Lead';
 import { DefaultRecordsPerPage, RecordsPerPage } from 'common/settings/settings';
+import { formatServerDateForDisplay } from 'components/dashboard/helpers/common';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomPagination } from '../helpers/pagination/renderPagination';
@@ -186,7 +187,7 @@ export const Leads = () => {
 
                                     return (
                                         <tr key={leaduid || lead.created}>
-                                            <td>{lead.created}</td>
+                                            <td>{formatServerDateForDisplay(lead.created)}</td>
                                             <td>{lead.company_name}</td>
                                             <td>{lead.email}</td>
                                             <td>{lead.phone}</td>
