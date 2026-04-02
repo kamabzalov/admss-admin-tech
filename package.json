@@ -91,11 +91,27 @@
             "react-app/jest"
         ],
         "rules": {
-            "no-unused-vars": "warn",
             "no-console": "error",
             "jsx-a11y/anchor-is-valid": "off",
             "react-hooks/exhaustive-deps": "off"
-        }
+        },
+        "overrides": [
+            {
+                "files": ["**/*.ts", "**/*.tsx"],
+                "rules": {
+                    "no-unused-vars": "off",
+                    "@typescript-eslint/no-unused-vars": [
+                        "warn",
+                        {
+                            "args": "none",
+                            "ignoreRestSiblings": true,
+                            "argsIgnorePattern": "^_",
+                            "varsIgnorePattern": "^_"
+                        }
+                    ]
+                }
+            }
+        ]
     },
     "browserslist": {
         "production": [
