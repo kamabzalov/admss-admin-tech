@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: string;
-    appearance?: 'primary' | 'light';
+    appearance?: 'primary' | 'light' | 'danger';
     buttonClickAction?: () => void;
 }
 
@@ -13,11 +13,14 @@ export const PrimaryButton = ({
     type,
     appearance = 'primary',
     children,
+    className,
 }: ButtonProps) => {
     return (
         <button
             type={type || 'button'}
-            className={`btn btn-${appearance} d-flex align-items-center`}
+            className={`btn btn-${appearance} d-flex align-items-center ${className} ${
+                appearance === 'danger' ? 'btn-danger' : ''
+            }`}
             onClick={buttonClickAction}
             disabled={disabled}
         >

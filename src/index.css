@@ -22,8 +22,48 @@
     margin-bottom: 10px;
 }
 
+.logo-minimize {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
 .menu-item .menu-title {
     font-size: 1.1rem;
+}
+
+.app-sidebar-toggle {
+    cursor: pointer;
+    z-index: 105;
+    transition: all 0.3s ease;
+}
+
+.app-sidebar-toggle:hover {
+    opacity: 0.8;
+}
+
+[data-kt-app-sidebar-minimize='on'] .app-sidebar-toggle.active .sidebar-toggle-icon,
+[data-kt-app-sidebar-minimize='on'] .app-sidebar-toggle .sidebar-toggle-icon--closed {
+    transform: scaleX(1);
+}
+
+.sidebar-toggle-icon {
+    transform: scaleX(-1);
+    transform-origin: center center;
+    transition: transform 0.2s ease;
+}
+
+[data-kt-app-sidebar-hoverable="true"][data-kt-app-sidebar-minimize="on"] .app-sidebar:hover .app-sidebar-logo-default {
+    display: inline-block !important;
+}
+
+[data-kt-app-sidebar-hoverable="true"][data-kt-app-sidebar-minimize="on"] .app-sidebar:hover .app-sidebar-logo-minimize {
+    display: none !important;
+}
+
+[data-kt-app-sidebar-hoverable="true"][data-kt-app-sidebar-minimize="on"] .app-sidebar:hover .menu-content,
+[data-kt-app-sidebar-hoverable="true"][data-kt-app-sidebar-minimize="on"] .app-sidebar:hover .menu-title {
+    opacity: 1 !important;
 }
 
 .sign-in-bg {

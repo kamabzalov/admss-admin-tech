@@ -29,6 +29,16 @@ export interface Lead {
     referral_code?: string;
     notes?: string;
     recaptcha_verified?: boolean;
+    reviewed_by_user_uid?: string;
+    reviewed_at?: string;
+    review_notes?: string;
+    dealer_id?: string;
+    converted_at?: string;
+    converted_by?: string;
+    converted_by_user_uid?: string;
+    converted_by_user_id?: string;
+    converted_by_username?: string;
+    converted_to_dealer_uid?: string;
 }
 
 export interface LeadsListResponse {
