@@ -1,5 +1,6 @@
 import { fetchApiData } from 'common/api/fetchAPI';
 import { Lead, LeadStatusApi, LeadsListResponse } from 'common/interfaces/Lead';
+import { LeadStatus } from 'components/dashboard/leads/constants/leads.constants';
 
 interface GetLeadsParams {
     top?: number;
@@ -8,12 +9,12 @@ interface GetLeadsParams {
 }
 
 const leadStatusToCode: Record<LeadStatusApi, number> = {
-    submitted: 0,
-    in_review: 1,
-    approved: 2,
-    rejected: 3,
-    closed: 4,
-    converted: 5,
+    [LeadStatus.SUBMITTED]: 0,
+    [LeadStatus.IN_REVIEW]: 1,
+    [LeadStatus.APPROVED]: 2,
+    [LeadStatus.REJECTED]: 3,
+    [LeadStatus.CLOSED]: 4,
+    [LeadStatus.CONVERTED]: 5,
 };
 
 const buildLeadsQuery = ({ top, skip, status }: GetLeadsParams): string => {
@@ -54,7 +55,7 @@ export const updateLeadStatus = (
     );
 };
 
-interface ConvertLeadPayload {
+export interface ConvertLeadPayload {
     admin_username?: string;
     first_name?: string;
     last_name?: string;
@@ -69,6 +70,43 @@ interface ConvertLeadPayload {
     referral_code?: string;
     notes?: string;
 }
+
+const normalizeString = (value: unknown): string | undefined => {
+    if (typeof value !== 'string') return undefined;
+    const normalized = value.trim();
+    return normalized ? normalized : undefined;
+};
+
+export const buildConvertLeadPayload = (lead: Partial<Lead>): ConvertLeadPayload => {
+    const firstName = normalizeString(lead.first_name);
+    const lastName = normalizeString(lead.last_name);
+    const email = normalizeString(lead.email);
+    const emailLocalPart = email?.split('@')[0];
+    const leadId = normalizeString(lead.id);
+    const leadBasedUsername = leadId ? `lead_${leadId.replace(/[^a-zA-Z0-9_]/g, '_')}` : undefined;
+    const adminUsername = normalizeString(
+        [firstName, lastName].filter(Boolean).join('.').toLowerCase() ||
+            emailLocalPart ||
+            leadBasedUsername ||
+            'lead_admin'
+    );
+
+    return {
+        admin_username: adminUsername,
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        phone: normalizeString(lead.phone),
+        company_name: normalizeString(lead.company_name),
+        company_address: normalizeString(lead.company_address),
+        city: normalizeString(lead.city),
+        state: normalizeString(lead.state),
+        zip: normalizeString(lead.zip),
+        dealer_type: normalizeString(lead.dealer_type),
+        referral_code: normalizeString(lead.referral_code),
+        notes: normalizeString(lead.notes),
+    };
+};
 
 export const convertLead = (
     leaduid: string,

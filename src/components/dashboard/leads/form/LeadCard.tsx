@@ -75,7 +75,9 @@ const LEAD_FIELD_ORDER: LeadField[] = [
 ];
 
 const humanizeKey = (key: string): string =>
-    key.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+    key
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (char, index) => (index === 0 ? char.toUpperCase() : char));
 
 const sortLeadKeys = (keys: string[]): string[] => {
     const orderMap = new Map(LEAD_FIELD_ORDER.map((fieldKey, index) => [fieldKey, index]));
@@ -130,7 +132,6 @@ const conversionFields: LeadField[] = [
     'converted_by_user_uid',
     'converted_by_user_id',
     'converted_by_username',
-    'reviewed_by_user_uid',
     'converted_to_dealer_uid',
 ];
 

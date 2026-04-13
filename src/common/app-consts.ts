@@ -128,4 +128,11 @@ export const leadsKeys: Record<string, string> = {
     reviewed_by_user_uid: 'Reviewed by user ID',
     reviewed_at: 'Reviewed at',
     review_notes: 'Review notes',
+    dealer_id: 'Dealer ID',
+    converted_at: 'Converted at',
+    converted_by: 'Converted by',
+    converted_by_user_uid: 'Converted by user ID',
+    converted_by_user_id: 'Converted by user ID (legacy)',
+    converted_by_username: 'Converted by username',
+    converted_to_dealer_uid: 'Converted dealer UID',
 };

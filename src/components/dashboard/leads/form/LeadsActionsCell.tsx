@@ -1,4 +1,4 @@
-import { CustomDropdown } from '../helpers/renderDropdownHelper';
+import { CustomDropdown } from 'components/dashboard/helpers/renderDropdownHelper';
 
 interface LeadsActionsCellProps {
     leaduid: string;

@@ -1,12 +1,58 @@
+import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const SIDEBAR_MINIMIZE_KEY = 'sidebar-minimize';
+
 const Sidebar = () => {
+    const [isMinimized, setIsMinimized] = useState(
+        () => localStorage.getItem(SIDEBAR_MINIMIZE_KEY) === 'on'
+    );
+
+    const handleToggle = useCallback(() => {
+        const body = document.body;
+        const nextIsMinimized = !isMinimized;
+        setIsMinimized(nextIsMinimized);
+
+        if (nextIsMinimized) {
+            body.setAttribute('data-kt-app-sidebar-minimize', 'on');
+            localStorage.setItem(SIDEBAR_MINIMIZE_KEY, 'on');
+            return;
+        }
+
+        body.removeAttribute('data-kt-app-sidebar-minimize');
+        localStorage.removeItem(SIDEBAR_MINIMIZE_KEY);
+    }, [isMinimized]);
+
     return (
         <div className='app-sidebar flex-column'>
             <div className='app-sidebar-logo px-6'>
                 <Link to='/dashboard'>
-                    <img src='/logo/admss_logo.png' className='logo mb-0' alt='ADMSS' />
+                    <img
+                        src='/logo/admss_logo.png'
+                        className='logo mb-0 app-sidebar-logo-default'
+                        alt='ADMSS'
+                    />
+                    <img
+                        src='/logo/admss_logo.png'
+                        className='logo-minimize mb-0 app-sidebar-logo-minimize'
+                        alt='ADMSS'
+                    />
                 </Link>
+                <div
+                    className={`app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary h-30px w-30px position-absolute top-50 start-100 translate-middle rotate ${
+                        isMinimized ? 'active' : ''
+                    }`}
+                    onClick={handleToggle}
+                >
+                    <i
+                        className={`ki-duotone ki-black-left-line fs-3 sidebar-toggle-icon ${
+                            isMinimized ? 'sidebar-toggle-icon--closed' : ''
+                        }`}
+                    >
+                        <span className='path1'></span>
+                        <span className='path2'></span>
+                    </i>
+                </div>
             </div>
             <div className='app-sidebar-menu overflow-hidden flex-column-fluid'>
                 <div className='app-sidebar-wrapper hover-scroll-overlay-y my-5'>

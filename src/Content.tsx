@@ -11,12 +11,12 @@ import { useAuthInterceptor } from 'common/auth.interceptor';
 import { DataImport } from 'components/dashboard/common/DataImport/DataImport';
 import { TemplatesPrinted } from 'components/dashboard/common/TemplatesPrinted/TemplatesPrinted';
 import { TemplatesReports } from 'components/dashboard/common/TemplatesReports/TemplatesReports';
-import { DeletedDealers } from './components/dashboard/users/DeletedDealers';
+import { DeletedDealers } from 'components/dashboard/users/DeletedDealers';
 import { Tab } from 'bootstrap';
-import { ErrorPage } from './components/Error';
-import { Dealers } from './components/dashboard/dealers';
-import { Leads } from './components/dashboard/leads/Leads';
-import { LeadCard } from './components/dashboard/leads/LeadCard';
+import { ErrorPage } from 'components/Error';
+import { Dealers } from 'components/dashboard/dealers';
+import { Leads } from 'components/dashboard/leads/form/Leads';
+import { LeadCard } from 'components/dashboard/leads/form/LeadCard';
 
 export function MasterInit() {
     const pluginsInitialization = () => {
