@@ -7,7 +7,7 @@ import { ApiKeysRow } from './ApiKeysTable/ApiKeysRow';
 import { ApiKeyRecord } from 'common/interfaces/UserApiKeys';
 import { getUserApiKeysList } from './apiKeys.service';
 import { ApiKeyModal } from './ApiKeysModal/ApiKeyModal';
-import { PrimaryButton } from 'components/dashboard/smallComponents/buttons/PrimaryButton';
+import { ActionButton } from 'components/dashboard/smallComponents/buttons/ActionButton';
 
 const defaultDate = new Date().getTime().toString();
 
@@ -58,9 +58,9 @@ export const ApiKeys = ({ useruid }: { useruid: string }): JSX.Element => {
     return (
         <div className='card'>
             <div className='me-4 mt-4 ms-auto'>
-                <PrimaryButton icon='plus' buttonClickAction={() => setAddKeyModalEnabled(true)}>
+                <ActionButton icon='plus' buttonClickAction={() => setAddKeyModalEnabled(true)}>
                     Add API key
-                </PrimaryButton>
+                </ActionButton>
             </div>
             <div className='card-body'>
                 <div className='table-responsive position-relative '>

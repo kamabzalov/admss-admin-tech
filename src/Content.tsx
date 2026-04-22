@@ -14,7 +14,7 @@ import { TemplatesReports } from 'components/dashboard/common/TemplatesReports/T
 import { DeletedDealers } from 'components/dashboard/users/DeletedDealers';
 import { Tab } from 'bootstrap';
 import { ErrorPage } from 'components/Error';
-import { Dealers } from 'components/dashboard/dealers';
+import { Dealers } from 'components/dashboard/dealers/index';
 import { Leads } from 'components/dashboard/leads/form/Leads';
 import { LeadCard } from 'components/dashboard/leads/form/LeadCard';
 

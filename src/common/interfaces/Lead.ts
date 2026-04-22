@@ -6,6 +6,15 @@ export type LeadStatusApi =
     | 'closed'
     | 'converted';
 
+export enum DealerType {
+    DISMANTLER = 'dismantler',
+    NON_AUTOMOTIVE = 'non_automotive',
+    OTHER = 'other',
+    REBUILDER = 'rebuilder',
+    SCRAPPER = 'scrapper',
+    INDIVIDUAL = 'individual',
+}
+
 export interface Lead {
     id: string;
     created: string;
@@ -25,7 +34,7 @@ export interface Lead {
     last_name?: string;
     email?: string;
     phone?: string;
-    dealer_type?: string;
+    dealer_type?: DealerType;
     referral_code?: string;
     notes?: string;
     recaptcha_verified?: boolean;

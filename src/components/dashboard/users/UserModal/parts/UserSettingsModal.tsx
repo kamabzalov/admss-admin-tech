@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { convertToNumberIfNumeric, deepEqual } from 'components/dashboard/helpers/common';
 import { useToast } from 'components/dashboard/helpers/renderToastHelper';
-import { PrimaryButton } from 'components/dashboard/smallComponents/buttons/PrimaryButton';
+import { ActionButton } from 'components/dashboard/smallComponents/buttons/ActionButton';
 import { useState, useEffect, useCallback } from 'react';
 import { Status } from 'common/interfaces/ActionStatus';
 import {
@@ -270,13 +270,13 @@ export const UserSettingsModal = ({
                     );
                 })}
             <div className='mt-12 d-flex justify-content-center align-content-center'>
-                <PrimaryButton
+                <ActionButton
                     icon='check'
                     disabled={isButtonDisabled}
                     buttonClickAction={handleSetUserSettings}
                 >
                     Save {username} settings
-                </PrimaryButton>
+                </ActionButton>
             </div>
         </>
     );

@@ -4,7 +4,7 @@ import { CustomCheckbox } from 'components/dashboard/helpers/renderInputsHelper'
 import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { getApiKeysTypes, getClientUid, setUserApiKey } from '../apiKeys.service';
-import { PrimaryButton } from 'components/dashboard/smallComponents/buttons/PrimaryButton';
+import { ActionButton } from 'components/dashboard/smallComponents/buttons/ActionButton';
 import { useParams } from 'react-router-dom';
 import { Status } from 'common/interfaces/ActionStatus';
 
@@ -236,13 +236,13 @@ export const ApiKeyModal = ({ apiKey, onClose, updateAction }: ApiKeyModalProps)
 
                 <div className='mt-12 d-flex justify-content-center align-content-center'>
                     {apiKey ? (
-                        <PrimaryButton type='button' buttonClickAction={handleSave}>
+                        <ActionButton type='button' buttonClickAction={handleSave}>
                             Save changes
-                        </PrimaryButton>
+                        </ActionButton>
                     ) : (
-                        <PrimaryButton type='button' buttonClickAction={handleSave}>
+                        <ActionButton type='button' buttonClickAction={handleSave}>
                             Create
-                        </PrimaryButton>
+                        </ActionButton>
                     )}
                 </div>
             </Form.Group>
