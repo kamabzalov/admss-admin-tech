@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUserPermissions, setUserPermissions } from 'components/dashboard/users/user.service';
 import { renderList } from 'components/dashboard/helpers/helpers';
-import { PrimaryButton } from 'components/dashboard/smallComponents/buttons/PrimaryButton';
+import { ActionButton } from 'components/dashboard/smallComponents/buttons/ActionButton';
 import { useToast } from 'components/dashboard/helpers/renderToastHelper';
 import { AxiosError } from 'axios';
 import { Status } from 'common/interfaces/ActionStatus';
@@ -100,13 +100,13 @@ export const UserPermissionsModal = ({
                     action: handleChangeUserPermissions,
                 })}
             <div className='mt-12 d-flex justify-content-center align-content-center'>
-                <PrimaryButton
+                <ActionButton
                     icon='check'
                     disabled={isButtonDisabled}
                     buttonClickAction={handleSetUserPermissions}
                 >
                     Save {username} permissions
-                </PrimaryButton>
+                </ActionButton>
             </div>
         </>
     );

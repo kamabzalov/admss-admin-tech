@@ -1,20 +1,36 @@
 import { fetchApiData } from 'common/api/fetchAPI';
-import { Lead, LeadStatusApi, LeadsListResponse } from 'common/interfaces/Lead';
-import { LeadStatus } from 'components/dashboard/leads/constants/leads.constants';
+import { DealerType, Lead, LeadStatusApi, LeadsListResponse } from 'common/interfaces/Lead';
+import { trimToUndefined } from 'common/utils';
 
 interface GetLeadsParams {
     top?: number;
     skip?: number;
-    status?: LeadStatusApi;
+    status?: LeadStatusApi | LeadStatusApi[];
+}
+
+export interface CreateLeadPayload {
+    email: string;
+    company_name: string;
+    company_address: string;
+    city: string;
+    state: string;
+    zip: string;
+    first_name: string;
+    last_name: string;
+    phone: string;
+    dealer_type: DealerType;
+    referral_code?: string;
+    notes?: string;
+    source_details?: string;
 }
 
 const leadStatusToCode: Record<LeadStatusApi, number> = {
-    [LeadStatus.SUBMITTED]: 0,
-    [LeadStatus.IN_REVIEW]: 1,
-    [LeadStatus.APPROVED]: 2,
-    [LeadStatus.REJECTED]: 3,
-    [LeadStatus.CLOSED]: 4,
-    [LeadStatus.CONVERTED]: 5,
+    submitted: 0,
+    in_review: 1,
+    approved: 2,
+    rejected: 3,
+    closed: 4,
+    converted: 5,
 };
 
 const buildLeadsQuery = ({ top, skip, status }: GetLeadsParams): string => {
@@ -26,7 +42,11 @@ const buildLeadsQuery = ({ top, skip, status }: GetLeadsParams): string => {
     if (typeof skip === 'number') {
         query.set('skip', String(skip));
     }
-    if (status) {
+    if (Array.isArray(status)) {
+        status.forEach((statusValue) => {
+            query.append('status', String(leadStatusToCode[statusValue]));
+        });
+    } else if (status) {
         query.set('status', String(leadStatusToCode[status]));
     }
 
@@ -42,6 +62,10 @@ export const getLead = (id: string): Promise<Lead> => {
     return fetchApiData<Lead>('GET', `lead/${id}`);
 };
 
+export const createLead = (data: CreateLeadPayload): Promise<{ id: string }> => {
+    return fetchApiData<{ id: string }>('POST', 'lead/submit', { data });
+};
+
 export const updateLeadStatus = (
     leaduid: string,
     status: LeadStatusApi
@@ -53,6 +77,22 @@ export const updateLeadStatus = (
             data: { status },
         }
     );
+};
+
+export interface UpdateLeadPayload {
+    company_name?: string;
+    company_address?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    phone?: string;
+}
+
+export const updateLead = (leaduid: string, data: UpdateLeadPayload): Promise<Lead> => {
+    return fetchApiData<Lead>('PATCH', `lead/${leaduid}`, { data });
 };
 
 export interface ConvertLeadPayload {
@@ -71,20 +111,14 @@ export interface ConvertLeadPayload {
     notes?: string;
 }
 
-const normalizeString = (value: unknown): string | undefined => {
-    if (typeof value !== 'string') return undefined;
-    const normalized = value.trim();
-    return normalized ? normalized : undefined;
-};
-
 export const buildConvertLeadPayload = (lead: Partial<Lead>): ConvertLeadPayload => {
-    const firstName = normalizeString(lead.first_name);
-    const lastName = normalizeString(lead.last_name);
-    const email = normalizeString(lead.email);
+    const firstName = trimToUndefined(lead.first_name);
+    const lastName = trimToUndefined(lead.last_name);
+    const email = trimToUndefined(lead.email);
     const emailLocalPart = email?.split('@')[0];
-    const leadId = normalizeString(lead.id);
+    const leadId = trimToUndefined(lead.id);
     const leadBasedUsername = leadId ? `lead_${leadId.replace(/[^a-zA-Z0-9_]/g, '_')}` : undefined;
-    const adminUsername = normalizeString(
+    const adminUsername = trimToUndefined(
         [firstName, lastName].filter(Boolean).join('.').toLowerCase() ||
             emailLocalPart ||
             leadBasedUsername ||
@@ -96,15 +130,15 @@ export const buildConvertLeadPayload = (lead: Partial<Lead>): ConvertLeadPayload
         first_name: firstName,
         last_name: lastName,
         email,
-        phone: normalizeString(lead.phone),
-        company_name: normalizeString(lead.company_name),
-        company_address: normalizeString(lead.company_address),
-        city: normalizeString(lead.city),
-        state: normalizeString(lead.state),
-        zip: normalizeString(lead.zip),
-        dealer_type: normalizeString(lead.dealer_type),
-        referral_code: normalizeString(lead.referral_code),
-        notes: normalizeString(lead.notes),
+        phone: trimToUndefined(lead.phone),
+        company_name: trimToUndefined(lead.company_name),
+        company_address: trimToUndefined(lead.company_address),
+        city: trimToUndefined(lead.city),
+        state: trimToUndefined(lead.state),
+        zip: trimToUndefined(lead.zip),
+        dealer_type: trimToUndefined(lead.dealer_type),
+        referral_code: trimToUndefined(lead.referral_code),
+        notes: trimToUndefined(lead.notes),
     };
 };
 

@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { getUserLocations, setUserOptionalData } from 'components/dashboard/users/user.service';
 import { deepEqual } from 'components/dashboard/helpers/common';
-import { PrimaryButton } from 'components/dashboard/smallComponents/buttons/PrimaryButton';
+import { ActionButton } from 'components/dashboard/smallComponents/buttons/ActionButton';
 import { useToast } from 'components/dashboard/helpers/renderToastHelper';
 import { AxiosError } from 'axios';
 import { renamedKeys } from 'common/app-consts';
@@ -217,13 +217,13 @@ export const UserOptionalModal = ({
                                 );
                             })}
                             <div className='text-center mt-8'>
-                                <PrimaryButton
+                                <ActionButton
                                     icon='check'
                                     disabled={isButtonDisabled || !!Object.keys(errors).length}
                                     type='submit'
                                 >
                                     Save user optional data
-                                </PrimaryButton>
+                                </ActionButton>
                             </div>
                         </Form>
                     )}
