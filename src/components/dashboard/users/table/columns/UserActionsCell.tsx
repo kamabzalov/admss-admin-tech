@@ -102,6 +102,7 @@ export const UserActionsCell = ({ useruid, username }: User) => {
                 <CustomModal
                     onClose={() => setUserPermissionsModalEnabled(false)}
                     title={`${username} user permissions: `}
+                    width={1200}
                 >
                     <UserPermissionsModal
                         onClose={() => setUserPermissionsModalEnabled(false)}
