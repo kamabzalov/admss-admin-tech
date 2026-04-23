@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useEffect } from 'react';
+import { CSSProperties, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 
 type CustomModalProps = {
     onClose: () => void;
@@ -31,6 +31,16 @@ export const CustomModal = ({
     children,
     width,
 }: PropsWithChildren<CustomModalProps>): JSX.Element => {
+    const [isCompactViewport, setIsCompactViewport] = useState<boolean>(
+        typeof window !== 'undefined' ? window.innerWidth <= 1200 : false
+    );
+    const modalWidth = width || 650;
+    const effectiveModalWidth = isCompactViewport ? Math.min(modalWidth, 800) : modalWidth;
+
+    const modalDialogStyle: CSSProperties = {
+        ['--bs-modal-width' as keyof CSSProperties]: `${effectiveModalWidth}px`,
+    };
+
     const handleKeyDown = useCallback(
         (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -49,6 +59,19 @@ export const CustomModal = ({
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsCompactViewport(window.innerWidth <= 1200);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     return (
         <>
             <div
@@ -58,7 +81,7 @@ export const CustomModal = ({
                 tabIndex={-1}
                 aria-modal='true'
             >
-                <div className={`modal-dialog modal-dialog-centered mw-${width || 650}px`}>
+                <div className='modal-dialog modal-dialog-centered' style={modalDialogStyle}>
                     <div className='modal-content'>
                         <UserModalHeader onClose={onClose} title={title} />
                         <div className='modal-body scroll-y mx-5 mx-xl-15 my-7'>{children}</div>

@@ -29,6 +29,11 @@ export const CustomDropdown = ({
         MenuComponent.reinitialization();
     }, []);
 
+    const handleMenuItemClick = (menuItemAction?: () => void) => {
+        MenuComponent.hideDropdowns(undefined);
+        menuItemAction?.();
+    };
+
     return (
         <>
             <a
@@ -47,14 +52,18 @@ export const CustomDropdown = ({
                 <i className='ki-duotone ki-down fs-4 m-0' />
             </a>
             <div
-                className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 py-4'
+                className='menu menu-sub menu-sub-dropdown menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 py-4'
                 data-kt-menu='true'
                 style={{ width: `${width || 150}px` }}
             >
                 {children}
                 {items &&
                     items.map(({ menuItemName, menuItemAction, icon }) => (
-                        <div key={menuItemName} className='menu-item px-3' onClick={menuItemAction}>
+                        <div
+                            key={menuItemName}
+                            className='menu-item px-3'
+                            onClick={() => handleMenuItemClick(menuItemAction)}
+                        >
                             <a className='menu-link px-3 text-hover-primary'>
                                 {icon && <i className={`ki-outline ki-${icon} fs-2 me-2`} />}
                                 {menuItemName}

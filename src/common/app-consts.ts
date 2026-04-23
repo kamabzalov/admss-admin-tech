@@ -100,6 +100,10 @@ export const renamedKeys: Record<string, string> = {
     uaAllowPrinting: 'Allow Printing',
     uaAllowMobile: 'Allow Mobile',
     uaAllowWeb: 'Allow Web',
+    uaUndeleteDeleted: 'Undelete Deleted',
+    uaViewDeleted: 'View Deleted',
+    uaWebSiteAdmin: 'Web Site Admin',
+    uaCreateReports: 'Create Reports',
 };
 
 export const leadsKeys: Record<string, string> = {
