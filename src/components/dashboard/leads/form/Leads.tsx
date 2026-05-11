@@ -300,7 +300,7 @@ export const Leads = () => {
                                                 {leaduid ? (
                                                     <div className='d-flex align-items-center gap-2'>
                                                         <ActionButton
-                                                            icon='pencil'
+                                                            icon='eye'
                                                             iconOnly
                                                             appearance='light'
                                                             className='btn-sm'
@@ -309,8 +309,8 @@ export const Leads = () => {
                                                                     `/dashboard/lead/${leaduid}`
                                                                 )
                                                             }
-                                                            aria-label='Edit lead'
-                                                            title='Edit'
+                                                            aria-label='Open lead card'
+                                                            title='Open lead card'
                                                         />
                                                         <ActionButton
                                                             icon='trash'

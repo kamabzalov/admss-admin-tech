@@ -69,3 +69,11 @@
 .sign-in-bg {
     background-image: url('_metronic/assets/images/sign-in-bg.png');
 }
+
+.table-row-dashed tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.table-row-dashed tbody tr:hover {
+    background-color: rgba(80, 107, 236, 0.04);
+}
