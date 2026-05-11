@@ -15,6 +15,7 @@ import { DeletedDealers } from 'components/dashboard/users/DeletedDealers';
 import { Tab } from 'bootstrap';
 import { ErrorPage } from 'components/Error';
 import { Dealers } from 'components/dashboard/dealers/index';
+import { DealerCard } from 'components/dashboard/dealers/DealerCard';
 import { Leads } from 'components/dashboard/leads/form/Leads';
 import { LeadCard } from 'components/dashboard/leads/form/LeadCard';
 
@@ -53,6 +54,7 @@ const Content = () => {
                     <Route path='billing' element={<ErrorPage />} />
                     <Route path='reports' element={<ErrorPage />} />
                     <Route path='user/:id' element={<UserCard />} />
+                    <Route path='dealer/:id' element={<DealerCard />} />
                     <Route path='lead/:id' element={<LeadCard />} />
                     <Route path='microservices' element={<Microservices />} />
                     <Route path='microservices/:uid' element={<MicroserviceCard />} />

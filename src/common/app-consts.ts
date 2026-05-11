@@ -106,6 +106,37 @@ export const renamedKeys: Record<string, string> = {
     uaCreateReports: 'Create Reports',
 };
 
+export const dealersKeys: Record<string, string> = {
+    id: 'Dealer ID',
+    created: 'Created',
+    updated: 'Updated',
+    dealer_status: 'Status',
+    dealer_status_code: 'Status code',
+    dealer_type: 'Dealer type',
+    dealer_type_code: 'Dealer type code',
+    notes: 'Notes',
+    company_name: 'Company name',
+    company_address: 'Address',
+    city: 'City',
+    state: 'State',
+    zip: 'ZIP',
+    first_name: 'First name',
+    last_name: 'Last name',
+    phone_office: 'Office phone',
+    email_company: 'Company email',
+    phone_mobile: 'Mobile phone',
+    email_contact: 'Contact email',
+    license_number: 'License number',
+    license_exp_date: 'License expiration',
+    is_verified: 'Verified',
+    verified_at: 'Verified at',
+    verified_by_user_uid: 'Verified by user ID',
+    sandbox_mode: 'Sandbox mode',
+    source_lead_uid: 'Source lead ID',
+    source: 'Source',
+    referral_code: 'Referral code',
+};
+
 export const leadsKeys: Record<string, string> = {
     id: 'Lead ID',
     created: 'Created',
