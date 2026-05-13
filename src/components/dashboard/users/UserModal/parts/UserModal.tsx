@@ -11,6 +11,8 @@ import { Status } from 'common/interfaces/ActionStatus';
 interface UserModalProps {
     onClose: () => void;
     user?: User;
+    dealerId?: string;
+    onSuccess?: () => void;
 }
 
 interface UserModalData extends UserInputData {
@@ -25,7 +27,7 @@ enum PassIcon {
     HIDDEN = 'ki-eye-slash',
 }
 
-export const UserModal = ({ onClose, user }: UserModalProps): JSX.Element => {
+export const UserModal = ({ onClose, user, dealerId, onSuccess }: UserModalProps): JSX.Element => {
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
     const [passwordFieldType, setPasswordFieldType] = useState<HTMLInputTypeAttribute>('password');
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
@@ -91,14 +93,19 @@ export const UserModal = ({ onClose, user }: UserModalProps): JSX.Element => {
 
             setSubmitting(true);
             try {
-                const params: [string, string, string?] = [username, password];
-                if (user?.useruid) params.push(user.useruid);
-                const responseData = await createOrUpdateUser(...params);
+                const isUpdate = Boolean(user?.useruid);
+                const uidForUrl = user?.useruid ?? '0';
+                const extraData = !isUpdate && dealerId ? { dealer_id: dealerId } : undefined;
+                const responseData = await createOrUpdateUser(
+                    username,
+                    password,
+                    uidForUrl,
+                    extraData
+                );
 
-                const message =
-                    params.length > 2
-                        ? `<strong>${username}</strong> password successfully updated`
-                        : `User <strong>${username}</strong> successfully created`;
+                const message = isUpdate
+                    ? `<strong>${username}</strong> password successfully updated`
+                    : `User <strong>${username}</strong> successfully created`;
 
                 if (responseData.status === Status.OK) {
                     handleShowToast({
@@ -107,6 +114,7 @@ export const UserModal = ({ onClose, user }: UserModalProps): JSX.Element => {
                     });
                     onClose();
                     refetch();
+                    onSuccess?.();
                 }
             } catch (err: any) {
                 const { warning, error } = err.data;

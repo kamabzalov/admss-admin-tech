@@ -34,6 +34,7 @@ $flatpickr-time-height: 46px;
 
 // Months container
 .flatpickr-months {
+    position: relative;
     padding: 0 $flatpickr-padding-x;
     padding-top: $flatpickr-padding-y;
 }
@@ -57,7 +58,9 @@ $flatpickr-time-height: 46px;
         background: transparent;
         color: var(--#{$prefix}gray-600);
         fill: var(--#{$prefix}gray-600);
-        height: 46px;
+        overflow: visible !important;
+        min-height: 3.25rem;
+        height: auto !important;
     }
 
     .flatpickr-prev-month,
@@ -66,7 +69,10 @@ $flatpickr-time-height: 46px;
         align-items: center;
         justify-content: center;
         @include border-radius($border-radius);
-        top: 1rem;
+        top: $flatpickr-padding-y !important;
+        transform: none !important;
+        z-index: 5;
+        top: 0.7rem !important;
 
         svg {
             fill: var(--#{$prefix}gray-500);
@@ -100,6 +106,17 @@ $flatpickr-time-height: 46px;
 
 // Month selector
 .flatpickr-current-month {
+    font-size: 1.1rem !important;
+    line-height: 1.35 !important;
+    height: auto !important;
+    min-height: 2.75rem;
+    padding: 0.35rem 0 0.45rem !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    z-index: 2;
     font-weight: $font-weight-semibold;
     color: inherit;
 
@@ -121,7 +138,7 @@ $flatpickr-time-height: 46px;
     .flatpickr-monthDropdown-months {
         border: 0 !important;
         background-color: var(--#{$prefix}body-bg);
-        font-size: 1rem;
+        font-size: 1.1rem;
         color: var(--#{$prefix}gray-700);
         font-weight: $font-weight-semibold;
         padding: 0.5rem 0.75rem;
@@ -137,7 +154,7 @@ $flatpickr-time-height: 46px;
         }
 
         .flatpickr-monthDropdown-month {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--#{$prefix}gray-700);
             font-weight: $font-weight-semibold;
             background-color: transparent;
@@ -148,7 +165,7 @@ $flatpickr-time-height: 46px;
 
     span.cur-month {
         color: var(--#{$prefix}gray-700);
-        font-size: 1rem;
+        font-size: 1.1rem;
         font-weight: $font-weight-semibold;
 
         &:hover {
@@ -177,14 +194,14 @@ span.flatpickr-weekday {
     @include border-bottom-radius($border-radius);
 
     .flatpickr-calendar.hasTime & {
-        height: height;
-        line-height: height;
-        max-height: height;
+        height: $flatpickr-time-height;
+        line-height: $flatpickr-time-height;
+        max-height: $flatpickr-time-height;
         border-top: 1px solid var(--#{$prefix}gray-100);
     }
 
     .numInputWrapper {
-        height: height;
+        height: $flatpickr-time-height;
     }
 
     .flatpickr-am-pm {
