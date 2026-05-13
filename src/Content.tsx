@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { MicroserviceCard } from 'components/dashboard/microservices/MicroserviceCard';
 import { Microservices } from 'components/dashboard/microservices/Microservices';
 import { UserCard } from 'components/dashboard/users/UserCard/UserCard';
@@ -18,6 +18,18 @@ import { Dealers } from 'components/dashboard/dealers/index';
 import { DealerCard } from 'components/dashboard/dealers/DealerCard';
 import { Leads } from 'components/dashboard/leads/form/Leads';
 import { LeadCard } from 'components/dashboard/leads/form/LeadCard';
+
+function ScrollToTop() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    }, [pathname]);
+
+    return null;
+}
 
 export function MasterInit() {
     const pluginsInitialization = () => {
@@ -41,6 +53,7 @@ const Content = () => {
     return (
         <div className='d-flex flex-column h-100'>
             <MasterInit />
+            <ScrollToTop />
             <Routes>
                 <Route path='/' element={<Login />} />
                 <Route path='/dashboard' element={<PrivateRouter />}>

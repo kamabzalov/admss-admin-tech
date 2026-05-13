@@ -1,20 +1,53 @@
+import { useState } from 'react';
 import { DealerUser } from 'common/interfaces/Dealer';
 import { formatServerDateForDisplay } from 'components/dashboard/helpers/common';
 import { ActionButton } from 'components/dashboard/smallComponents/buttons/ActionButton';
+import { CustomModal } from 'components/dashboard/helpers/modal/renderModalHelper';
+import { UserModal } from 'components/dashboard/users/UserModal/parts/UserModal';
 
 interface DealerUsersCardProps {
     users: DealerUser[];
+    dealerId: string;
     onOpenUser: (useruid: string) => void;
+    onUserCreated?: () => void;
 }
 
-export const DealerUsersCard = ({ users, onOpenUser }: DealerUsersCardProps) => {
+export const DealerUsersCard = ({
+    users,
+    dealerId,
+    onOpenUser,
+    onUserCreated,
+}: DealerUsersCardProps) => {
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+
+    const handleOpenCreateModal = () => setIsCreateModalOpen(true);
+    const handleCloseCreateModal = () => setIsCreateModalOpen(false);
+
     return (
         <div className='card shadow-sm mb-6'>
-            <div className='card-header'>
+            {isCreateModalOpen && (
+                <CustomModal onClose={handleCloseCreateModal} title='Add user'>
+                    <UserModal
+                        onClose={handleCloseCreateModal}
+                        dealerId={dealerId}
+                        onSuccess={onUserCreated}
+                    />
+                </CustomModal>
+            )}
+            <div className='card-header d-flex align-items-center justify-content-between'>
                 <h4 className='card-title m-0'>
                     Users
                     <span className='ms-2 fs-6 text-muted fw-bold'>({users.length})</span>
                 </h4>
+                <ActionButton
+                    icon='plus'
+                    className='btn-sm'
+                    buttonClickAction={handleOpenCreateModal}
+                    disabled={!dealerId}
+                    title='Add user'
+                >
+                    Add user
+                </ActionButton>
             </div>
             <div className='card-body py-6'>
                 {users.length === 0 ? (

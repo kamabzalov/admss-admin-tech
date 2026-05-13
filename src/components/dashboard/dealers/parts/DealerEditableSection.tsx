@@ -2,8 +2,10 @@ import {
     EditableField,
     fieldLabel,
     inputTypeByFieldKey,
+    isEditableDateFieldKey,
     requiredEditableFields,
 } from 'components/dashboard/dealers/parts/helpers';
+import { MetronicFlatpickrDateInput } from 'components/dashboard/dealers/parts/MetronicFlatpickrDateInput';
 
 interface DealerEditableSectionProps {
     title: string;
@@ -31,6 +33,7 @@ export const DealerEditableSection = ({
                 <div className='row'>
                     {fields.map((key) => {
                         const isRequired = requiredEditableFields.includes(key);
+                        const isDateField = isEditableDateFieldKey(key);
                         const errorMessage = errors[key];
                         return (
                             <div className='col-md-6 mb-5' key={key}>
@@ -43,16 +46,27 @@ export const DealerEditableSection = ({
                                         {fieldLabel(key)}
                                     </label>
                                     <div className='col-lg-8'>
-                                        <input
-                                            type={inputTypeByFieldKey(key)}
-                                            autoComplete='off'
-                                            className={`form-control form-control-sm ${
-                                                errorMessage ? 'is-invalid' : ''
-                                            }`}
-                                            value={draft[key] ?? ''}
-                                            onChange={(event) => onChange(key, event.target.value)}
-                                            disabled={disabled}
-                                        />
+                                        {isDateField ? (
+                                            <MetronicFlatpickrDateInput
+                                                value={draft[key] ?? ''}
+                                                onChange={(next) => onChange(key, next)}
+                                                disabled={disabled}
+                                                invalid={Boolean(errorMessage)}
+                                            />
+                                        ) : (
+                                            <input
+                                                type={inputTypeByFieldKey(key)}
+                                                autoComplete='off'
+                                                className={`form-control form-control-sm ${
+                                                    errorMessage ? 'is-invalid' : ''
+                                                }`}
+                                                value={draft[key] ?? ''}
+                                                onChange={(event) =>
+                                                    onChange(key, event.target.value)
+                                                }
+                                                disabled={disabled}
+                                            />
+                                        )}
                                         {errorMessage && (
                                             <div className='fv-plugins-message-container'>
                                                 <span role='alert' className='text-danger'>

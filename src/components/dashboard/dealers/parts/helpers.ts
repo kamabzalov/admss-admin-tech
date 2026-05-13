@@ -42,19 +42,21 @@ export const requiredEditableFields: EditableField[] = ['company_name', 'email_c
 
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const inputTypeByFieldKey = (fieldKey: EditableField): string => {
-    if (fieldKey === 'email_company' || fieldKey === 'email_contact') return 'email';
-    if (fieldKey === 'phone_office' || fieldKey === 'phone_mobile') return 'tel';
-    if (fieldKey === 'license_exp_date') return 'date';
-    return 'text';
-};
-
-const isDateLikeFieldKey = (fieldKey: string): boolean =>
+export const isDateLikeFieldKey = (fieldKey: string): boolean =>
     fieldKey === 'created' ||
     fieldKey === 'updated' ||
     fieldKey === 'verified_at' ||
-    fieldKey === 'license_exp_date' ||
-    fieldKey.endsWith('_at');
+    fieldKey.endsWith('_at') ||
+    fieldKey.endsWith('_date');
+
+export const isEditableDateFieldKey = (fieldKey: EditableField): boolean =>
+    isDateLikeFieldKey(fieldKey);
+
+export const inputTypeByFieldKey = (fieldKey: EditableField): string => {
+    if (fieldKey === 'email_company' || fieldKey === 'email_contact') return 'email';
+    if (fieldKey === 'phone_office' || fieldKey === 'phone_mobile') return 'tel';
+    return 'text';
+};
 
 export const formatFieldValue = (fieldKey: string, value: unknown): string => {
     if (isEmptyValue(value)) return '-';
@@ -66,9 +68,19 @@ export const formatFieldValue = (fieldKey: string, value: unknown): string => {
     return String(value);
 };
 
+export const normalizeDateDraftValue = (value: unknown): string => {
+    const raw = toStringOrEmpty(value).trim();
+    if (!raw) return '';
+    const iso = raw.match(/^(\d{4}-\d{2}-\d{2})/);
+    return iso ? iso[1] : raw;
+};
+
 export const buildDraftFromDealer = (dealer: Dealer | null): Record<EditableField, string> => {
     return editableFields.reduce<Record<EditableField, string>>((acc, fieldKey) => {
-        acc[fieldKey] = toStringOrEmpty((dealer as unknown as Record<string, unknown>)?.[fieldKey]);
+        const raw = (dealer as unknown as Record<string, unknown>)?.[fieldKey];
+        acc[fieldKey] = isEditableDateFieldKey(fieldKey)
+            ? normalizeDateDraftValue(raw)
+            : toStringOrEmpty(raw);
         return acc;
     }, {} as Record<EditableField, string>);
 };

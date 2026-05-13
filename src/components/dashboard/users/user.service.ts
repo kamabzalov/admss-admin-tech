@@ -12,10 +12,11 @@ import { UserSettingsResponse, UserSettingDeals } from 'common/interfaces/users/
 export const createOrUpdateUser = (
     loginname: string,
     loginpassword: string,
-    uid: string = '0'
+    uid: string = '0',
+    extraData?: Record<string, unknown>
 ): Promise<UserSuccessResponse | UserErrorResponse> => {
     return fetchApiData<UserSuccessResponse | UserErrorResponse>('POST', `user/${uid}/user`, {
-        data: { loginname, loginpassword },
+        data: { loginname, loginpassword, ...(extraData ?? {}) },
     });
 };
 

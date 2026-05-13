@@ -32,6 +32,7 @@ import {
     EMAIL_PATTERN,
     fieldLabel,
     getDealerName,
+    isEditableDateFieldKey,
     licenseFields,
     normalizeStatus,
     requiredEditableFields,
@@ -179,6 +180,11 @@ export const DealerCard = () => {
                     errors[fieldKey] = 'Invalid email format';
                 }
             }
+            if (isEditableDateFieldKey(fieldKey) && raw) {
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+                    errors[fieldKey] = 'Use yyyy-mm-dd format';
+                }
+            }
         });
         return errors;
     };
@@ -324,7 +330,9 @@ export const DealerCard = () => {
                         <DealerVerificationCard dealer={dealer} />
                         <DealerUsersCard
                             users={users}
+                            dealerId={id}
                             onOpenUser={(useruid) => navigate(`/dashboard/user/${useruid}`)}
+                            onUserCreated={() => void fetchUsers()}
                         />
                         <DealerLicensesCard licenses={licenses} />
                     </>
