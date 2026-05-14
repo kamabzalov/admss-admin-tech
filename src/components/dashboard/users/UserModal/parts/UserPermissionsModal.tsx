@@ -31,10 +31,9 @@ export const UserPermissionsModal = ({
             title: 'User roles',
             keys: [
                 'uaSystemAdmin',
+                'uaManager',
                 'uaClientAdmin',
                 'uaLocationAdmin',
-                'uaWebSiteAdmin',
-                'uaManager',
                 'uaSalesPerson',
             ],
         },
@@ -78,7 +77,6 @@ export const UserPermissionsModal = ({
                 'uaChangePayments',
                 'uaAllowBackDatingPayments',
                 'uaAllowPartialPayments',
-                'uaAllowPaymentCalculator',
             ],
         },
         {
@@ -86,11 +84,13 @@ export const UserPermissionsModal = ({
             keys: [
                 'uaCreateUsers',
                 'uaEditSettings',
+                'uaAllowPaymentCalculator',
                 'uaAllowPaymentQuote',
                 'uaAllowReports',
                 'uaAllowPrinting',
                 'uaAllowMobile',
                 'uaAllowWeb',
+                'uaWebSiteAdmin',
                 'uaCreateReports',
                 'uaUndeleteDeleted',
                 'uaViewDeleted',
