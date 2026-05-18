@@ -328,13 +328,13 @@ export const DealerCard = () => {
                             disabled={sectionsDisabled}
                         />
                         <DealerVerificationCard dealer={dealer} />
+                        <DealerLicensesCard licenses={licenses} />
                         <DealerUsersCard
                             users={users}
                             dealerId={id}
                             onOpenUser={(useruid) => navigate(`/dashboard/user/${useruid}`)}
                             onUserCreated={() => void fetchUsers()}
                         />
-                        <DealerLicensesCard licenses={licenses} />
                     </>
                 )}
             </div>

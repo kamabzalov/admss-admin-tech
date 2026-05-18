@@ -86,13 +86,13 @@ export const UsersTable = ({ list }: UsersTableProps) => {
                         )}
                     </tbody>
                 </table>
-                <CustomPagination
-                    records={listLength}
-                    onPageChange={handlePageChange}
-                    count={state.count}
-                    onCountChange={handleCountChange}
-                />
             </div>
+            <CustomPagination
+                records={listLength}
+                onPageChange={handlePageChange}
+                count={state.count}
+                onCountChange={handleCountChange}
+            />
         </>
     );
 };
