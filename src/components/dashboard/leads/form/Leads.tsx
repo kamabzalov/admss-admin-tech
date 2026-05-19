@@ -276,7 +276,7 @@ export const Leads = () => {
                                             <td>
                                                 <select
                                                     className='form-select form-select-sm'
-                                                    style={{ width: '110px' }}
+                                                    style={{ width: '120px' }}
                                                     disabled={!leaduid}
                                                     value={normalizeStatus(lead)}
                                                     onChange={(event) =>

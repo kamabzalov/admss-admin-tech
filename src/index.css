@@ -70,6 +70,39 @@
     background-image: url('_metronic/assets/images/sign-in-bg.png');
 }
 
+.card:not(:has(.card)):has(.table-responsive:not(.table-responsive-horizontal)) {
+    display: flex;
+    flex-direction: column;
+    height: min(1200px, 80vh);
+    max-height: 80vh;
+}
+
+.card:not(:has(.card)):has(.table-responsive:not(.table-responsive-horizontal)) > .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.card:not(:has(.card)):has(.table-responsive:not(.table-responsive-horizontal)) .tab-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.card:not(:has(.card)):has(.table-responsive:not(.table-responsive-horizontal))
+    .table-responsive:not(.table-responsive-horizontal) {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.card:not(:has(.card)):has(.table-responsive:not(.table-responsive-horizontal)) .table-card-pagination {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
 .table-row-dashed tbody tr {
     transition: background-color 0.15s ease;
 }

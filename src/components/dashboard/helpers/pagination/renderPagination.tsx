@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import clsx from 'clsx';
-import { useState, useEffect, type MouseEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import {
     DefaultRecordsPerPage,
@@ -63,13 +63,8 @@ export const CustomPagination = ({
         setIsLoading(false);
     };
 
-    const handlePageLinkClick = (event: MouseEvent<HTMLAnchorElement>, pageNumber: number) => {
-        event.preventDefault();
-        handlePageChange(pageNumber);
-    };
-
     return (
-        <div className='w-100 py-6 col-sm-12 col-md-7 d-flex align-items-center justify-content-center'>
+        <div className='table-card-pagination w-100 py-6 col-sm-12 col-md-7 d-flex align-items-center justify-content-center'>
             <div id='kt_table_users_paginate'>
                 <ul className='pagination'>
                     <li
@@ -77,11 +72,7 @@ export const CustomPagination = ({
                             disabled: isLoading || currentPage === 0,
                         })}
                     >
-                        <a
-                            href='#'
-                            className='page-link'
-                            onClick={(e) => handlePageLinkClick(e, 0)}
-                        >
+                        <a href='#' className='page-link' onClick={() => handlePageChange(0)}>
                             <i className='ki-outline ki-double-left fs-4'></i>
                         </a>
                     </li>
@@ -93,7 +84,7 @@ export const CustomPagination = ({
                         <a
                             href='#'
                             className='page-link'
-                            onClick={(e) => handlePageLinkClick(e, currentPage - 1)}
+                            onClick={() => handlePageChange(currentPage - 1)}
                         >
                             <i className='ki-outline ki-left fs-4'></i>
                         </a>
@@ -115,7 +106,7 @@ export const CustomPagination = ({
                                     <a
                                         href='#'
                                         className='page-link'
-                                        onClick={(e) => handlePageLinkClick(e, pageNumber)}
+                                        onClick={() => handlePageChange(pageNumber)}
                                     >
                                         {pageNumber + 1}
                                     </a>
@@ -132,7 +123,7 @@ export const CustomPagination = ({
                         <a
                             href='#'
                             className='page-link'
-                            onClick={(e) => handlePageLinkClick(e, currentPage + 1)}
+                            onClick={() => handlePageChange(currentPage + 1)}
                         >
                             <i className='ki-outline ki-right fs-4'></i>
                         </a>
@@ -145,7 +136,7 @@ export const CustomPagination = ({
                         <a
                             href='#'
                             className='page-link'
-                            onClick={(e) => handlePageLinkClick(e, totalPages - 1)}
+                            onClick={() => handlePageChange(totalPages - 1)}
                         >
                             <i className='ki-outline ki-double-right fs-4'></i>
                         </a>
